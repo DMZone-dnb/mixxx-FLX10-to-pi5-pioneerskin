@@ -22,8 +22,8 @@ jobs:
         key: ccache-${{ github.run_number }}
         restore-keys: |
           ccache
-          - name: Fix permissions
-         run: |
+    - name: Fix permissions
+      run: |
            find . -name '*.sh' -not -path './.git/*' -exec chmod +x {} +
            chmod +x stage2/01-sys-tweaks/files/rc.local
     - name: Build
