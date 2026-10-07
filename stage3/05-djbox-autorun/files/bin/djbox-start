@@ -1,0 +1,4 @@
+#!/bin/bash
+# Re-launch the kiosk loop inside the running sway session.
+pgrep -f djbox-mixxx-session.sh >/dev/null && { echo "already running"; exit 0; }
+swaymsg exec /usr/local/bin/djbox-mixxx-session.sh

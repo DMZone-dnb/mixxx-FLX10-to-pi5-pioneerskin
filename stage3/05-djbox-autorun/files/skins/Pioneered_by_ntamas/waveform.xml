@@ -1,0 +1,314 @@
+<Template>
+  <WidgetGroup>
+    <ObjectName>Waveform_Channel<Variable name="channel"/></ObjectName>
+    <Connection>
+      <ConfigKey>[Pioneered],show_wf<Variable name="channel"/></ConfigKey>
+      <BindProperty>visible</BindProperty>
+    </Connection>
+    <Layout>horizontal</Layout>
+    <Size>0me,50me</Size>
+    <Children>
+      <WidgetGroup>
+        <ObjectName>WaveformInfo</ObjectName>
+        <Layout>vertical</Layout>
+        <Size>132f,0me</Size>
+        <Children>
+          <WidgetGroup>
+            <ObjectName>WaveformInfo_Header</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,36f</Size>
+            <Children>
+              <Label>
+                <ObjectName>WaveformInfoSource</ObjectName>
+                <Text>USB1</Text>
+              </Label>
+              <PushButton>
+                <ObjectName>SidebarEject</ObjectName>
+                <Size>22f,18f</Size>
+                <NumberStates>1</NumberStates>
+                <State><Number>0</Number><Text>&#9167;</Text></State>
+                <Connection>
+                  <ConfigKey>[Channel<Variable name="channel"/>],eject</ConfigKey>
+                  <ConnectValueToWidget>false</ConnectValueToWidget>
+                </Connection>
+              </PushButton>
+            </Children>
+          </WidgetGroup>
+          <WidgetGroup>
+            <ObjectName>WaveformInfo_Data_Container</ObjectName>
+            <Layout>vertical</Layout>
+            <Size>0me,25me</Size>
+            <Children>
+              <WidgetGroup>
+                <ObjectName>WaveformInfo_Key_Container</ObjectName>
+                <Layout>horizontal</Layout>
+                <Size>0me,34f</Size>
+                <Children>
+                  <Label>
+                    <ObjectName>WaveformInfoCaption</ObjectName>
+                    <Text>KEY</Text>
+                  </Label>
+                  <Key>
+                    <ObjectName>WaveformInfo_Key</ObjectName>
+                    <TooltipId>visual_key</TooltipId>
+                    <Connection>
+                      <ConfigKey>[Channel<Variable name="channel"/>],visual_key</ConfigKey>
+                    </Connection>
+                  </Key>
+                </Children>
+              </WidgetGroup>
+              <WidgetGroup>
+                <ObjectName>WaveformInfo_Jump_Container</ObjectName>
+                <Layout>horizontal</Layout>
+                <Size>0me,34f</Size>
+                <Children>
+                  <Label>
+                    <ObjectName>WaveformInfoCaption</ObjectName>
+                    <Text>BEAT&#10;JUMP</Text>
+                  </Label>
+                  <Number>
+                    <ObjectName>WaveformInfoJump</ObjectName>
+                    <NumberOfDigits>0</NumberOfDigits>
+                    <Connection>
+                      <ConfigKey>[Channel<Variable name="channel"/>],beatjump_size</ConfigKey>
+                    </Connection>
+                  </Number>
+                </Children>
+              </WidgetGroup>
+              <WidgetGroup>
+                <ObjectName>WaveformInfo_Bars_Container</ObjectName>
+                <Layout>horizontal</Layout>
+                <Size>0me,10f</Size>
+                <Children>
+                  <Label>
+                    <ObjectName>WaveformInfo_Bars</ObjectName>
+                  </Label>
+                </Children>
+              </WidgetGroup>
+
+              
+            </Children>
+          </WidgetGroup>
+        </Children>
+      </WidgetGroup>
+      <!-- The deck's three stems, between its info block and its number, so
+           the lane a button belongs to is never in doubt. The words and the
+           colours are rekordbox's own row, which is also the honest naming:
+           its INST is the residual, mix minus drums minus vocals, rather than
+           a fourth thing the separation predicts. This template runs once per
+           channel, so the keys come out as [Pioneered],stem1_drums through
+           stem4_inst. Naming a control here is what creates it, and the
+           mapping's watchStemButtons connects to each one and turns a press
+           into the 0x71 SysEx that asks the bridge to find that stem's render
+           and load it on that deck. That is the whole stem answer on 2.5.6,
+           which has no stem engine of its own, and it keeps working on 2.6:
+           these three buttons load a file, the strip beside them mixes one
+           that is already loaded. -->
+      <WidgetGroup>
+        <ObjectName>StemStack</ObjectName>
+        <Layout>vertical</Layout>
+        <Size>76f,0me</Size>
+        <Children>
+          <PushButton>
+            <ObjectName>StemDrums</ObjectName>
+            <Size>0me,0me</Size>
+            <NumberStates>2</NumberStates>
+            <State><Number>0</Number><Text>DRUMS</Text></State>
+            <State><Number>1</Number><Text>DRUMS</Text></State>
+            <Connection>
+              <ConfigKey>[Pioneered],stem<Variable name="channel"/>_drums</ConfigKey>
+            </Connection>
+          </PushButton>
+          <PushButton>
+            <ObjectName>StemVocal</ObjectName>
+            <Size>0me,0me</Size>
+            <NumberStates>2</NumberStates>
+            <State><Number>0</Number><Text>VOCAL</Text></State>
+            <State><Number>1</Number><Text>VOCAL</Text></State>
+            <Connection>
+              <ConfigKey>[Pioneered],stem<Variable name="channel"/>_vocal</ConfigKey>
+            </Connection>
+          </PushButton>
+          <PushButton>
+            <ObjectName>StemInst</ObjectName>
+            <Size>0me,0me</Size>
+            <NumberStates>2</NumberStates>
+            <State><Number>0</Number><Text>INST</Text></State>
+            <State><Number>1</Number><Text>INST</Text></State>
+            <Connection>
+              <ConfigKey>[Pioneered],stem<Variable name="channel"/>_inst</ConfigKey>
+            </Connection>
+          </PushButton>
+        </Children>
+      </WidgetGroup>
+      <!-- And beside them the real thing, for the Mixxx that has one. The four
+           rows of [ChannelN_StemM] controls are built here on every version and
+           shown on none but a 2.6 with a stem track loaded; stems.xml explains
+           the one connection that decides it. The template inherits `channel`
+           from this one, the way the stock 2.6 skins inherit theirs. -->
+      <Template src="skin:stems.xml"/>
+            <WidgetGroup>
+        <ObjectName>WaveformOnAirColumn<Variable name="channel"/></ObjectName>
+        <Layout>vertical</Layout>
+        <!-- Wide enough for the badge. "ON AIR" bold at 10px measures a little
+             over 44, so at the old width it spilled past the column edge and
+             sat on the waveform. That was invisible while the column had nothing
+             but black to its right, and obvious once the stem stack moved in
+             beside it. -->
+        <Size>56f,0me</Size>
+        <Children>
+          <WidgetGroup>
+            <ObjectName>WaveformOnAir</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,16f</Size>
+            <Children>
+              <Label>
+                <ObjectName>WaveformOnAirLabel</ObjectName>
+                <Text>ON AIR</Text>
+                <Size>0me,0me</Size>
+              </Label>
+            </Children>
+            <Connection>
+              <ConfigKey>[Pioneered],onair<Variable name="channel"/></ConfigKey>
+              <BindProperty>visible</BindProperty>
+            </Connection>
+          </WidgetGroup>
+          <Label>
+            <ObjectName>WaveformDeckNum<Variable name="channel"/></ObjectName>
+            <Text><Variable name="channel"/></Text>
+            <Size>0me,0me</Size>
+          </Label>
+        </Children>
+      </WidgetGroup>
+      <Visual>
+        <TooltipId>waveform_display</TooltipId>
+        <ObjectName>Waveform<Variable name="channel"/></ObjectName>
+        <Channel><Variable name="channel"/></Channel>
+        <BgColor>#000</BgColor>
+        <BeatColor>#40ffffff</BeatColor>
+        <PlayPosColor>#fff</PlayPosColor>
+        <!-- rekordbox draws no centre line. Mixxx's filtered renderer paints one
+             last, over the bands, and with AxesColor unset it defaults to
+             #f5f5f5: invisible inside a cream core, a white seam across every
+             quiet passage. Alpha zero removes it. Measured, the centre row goes
+             from #f5f5f5 to the band colour underneath at both a sparse and a
+             dense position. That works because blending is enabled by the time
+             this renderer draws, which WaveformRendererFiltered does not set
+             itself, so check it again after a Mixxx upgrade. -->
+        <AxesColor>#00000000</AxesColor>
+        <SignalColor>#1d6fe0</SignalColor>
+        <!-- rekordbox's own 3Band colours, read out of rekordbox.exe rather than off
+             a screenshot: #0055E1 low, #FFA600 mid, #FFFFFF high, and one hand-
+             written colour for each region where two or three of the bars overlap.
+             rekordbox draws a bar per band about the centre line and paints them
+             largest first; Mixxx's filtered renderer paints low, mid, high in that
+             fixed order, and since the high band is the tallest in under 3% of
+             columns the two put the same rings in the same places. So the plain
+             triple takes the region colours, not the band colours: the rim where
+             only the bass reaches, the ring where bass and mid overlap, the core
+             where all three do. Pixel-exact on 78.8% of columns, measured.
+             The RGB triple is the same three, for the stacked renderer that reads
+             it. Signal3Band* below is the band-per-band set, for the mixer the
+             pioneered4 build moves into the skin: that one adds without dividing by
+             the largest component, which is what keeps rekordbox's quiet passages
+             dark and lets its loud ones reach white. Todays build ignores it. -->
+        <SignalLowColor>#0055e1</SignalLowColor>
+        <SignalMidColor>#b4690a</SignalMidColor>
+        <SignalHighColor>#f5ebd7</SignalHighColor>
+        <SignalRGBLowColor>#0055e1</SignalRGBLowColor>
+        <SignalRGBMidColor>#b4690a</SignalRGBMidColor>
+        <SignalRGBHighColor>#f5ebd7</SignalRGBHighColor>
+        <Signal3BandLowColor>#0055e1</Signal3BandLowColor>
+        <Signal3BandMidColor>#ffa600</Signal3BandMidColor>
+        <Signal3BandHighColor>#ffffff</Signal3BandHighColor>
+        <Signal3BandMix>additive</Signal3BandMix>
+        <Mark>
+          <Control>cue_point</Control>
+          <Text>CUE</Text>
+          <Color>#ff6000</Color>
+          <TextColor>#ff6000</TextColor>
+          <Align>bottom</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_1_position</Control>
+          <Text>A</Text>
+          <Color>#f44040</Color>
+          <TextColor>#f44040</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_2_position</Control>
+          <Text>B</Text>
+          <Color>#0ddcf2</Color>
+          <TextColor>#0ddcf2</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_3_position</Control>
+          <Text>C</Text>
+          <Color>#a5df13</Color>
+          <TextColor>#a5df13</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_4_position</Control>
+          <Text>D</Text>
+          <Color>#9d4cfd</Color>
+          <TextColor>#9d4cfd</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_5_position</Control>
+          <Text>E</Text>
+          <Color>#3fec2b</Color>
+          <TextColor>#3fec2b</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_6_position</Control>
+          <Text>F</Text>
+          <Color>#e6681c</Color>
+          <TextColor>#e6681c</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_7_position</Control>
+          <Text>G</Text>
+          <Color>#2749c8</Color>
+          <TextColor>#2749c8</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>hotcue_8_position</Control>
+          <Text>H</Text>
+          <Color>#c7b205</Color>
+          <TextColor>#c7b205</TextColor>
+          <Align>top</Align>
+        </Mark>
+        <Mark>
+          <Control>loop_start_position</Control>
+          <Text>LOOP IN</Text>
+          <Color>#6ee128</Color>
+          <TextColor>#6ee128</TextColor>
+          <Align>bottom</Align>
+        </Mark>
+        <Mark>
+          <Control>loop_end_position</Control>
+          <Text>LOOP OUT</Text>
+          <Color>#6ee128</Color>
+          <TextColor>#6ee128</TextColor>
+          <Align>bottom</Align>
+        </Mark>
+        <MarkRange>
+          <StartControl>loop_start_position</StartControl>
+          <EndControl>loop_end_position</EndControl>
+          <EnabledControl>loop_enabled</EnabledControl>
+          <Color>#6ee128</Color>
+          <Opacity>0.8</Opacity>
+          <DisabledColor>#acacac</DisabledColor>
+          <DisabledOpacity>0.4</DisabledOpacity>
+        </MarkRange>
+      </Visual>
+    </Children>
+  </WidgetGroup>
+</Template>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MixxxControllerPreset schemaVersion="1" mixxxVersion="2.5">
+  <info>
+    <name>Mixxx Time Clamp</name>
+    <author>ntamas</author>
+    <description>Binds no keys. Watches [Controls],ShowDurationRemaining and
+    drops the third display mode, so clicking the track time alternates between
+    elapsed and remaining only. Attach to a VirMIDI port so it loads without any
+    real controller present. Also accepts CPU% on 0xB0/0x10, play toggles on
+    0x11-0x14 and LoadSelectedTrack on 0x15-0x18 for decks 1-4 (used by
+    automation/screenshot tooling).</description>
+  </info>
+  <controller id="VirMIDI 5-0">
+    <scriptfiles>
+      <file filename="Time-Clamp-scripts.js" functionprefix="TimeClamp"/>
+    </scriptfiles>
+    <controls>
+      <control>
+        <group>[Pioneered]</group>
+        <key>TimeClamp.cpuIn</key>
+        <status>0xB0</status>
+        <midino>0x10</midino>
+        <options>
+          <script-binding/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel1]</group>
+        <key>play</key>
+        <status>0xB0</status>
+        <midino>0x11</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel2]</group>
+        <key>play</key>
+        <status>0xB0</status>
+        <midino>0x12</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel3]</group>
+        <key>play</key>
+        <status>0xB0</status>
+        <midino>0x13</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel4]</group>
+        <key>play</key>
+        <status>0xB0</status>
+        <midino>0x14</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel1]</group>
+        <key>LoadSelectedTrack</key>
+        <status>0xB0</status>
+        <midino>0x15</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel2]</group>
+        <key>LoadSelectedTrack</key>
+        <status>0xB0</status>
+        <midino>0x16</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel3]</group>
+        <key>LoadSelectedTrack</key>
+        <status>0xB0</status>
+        <midino>0x17</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Channel4]</group>
+        <key>LoadSelectedTrack</key>
+        <status>0xB0</status>
+        <midino>0x18</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Pioneered]</group>
+        <key>osk</key>
+        <status>0xB0</status>
+        <midino>0x21</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Pioneered]</group>
+        <key>osk_btn</key>
+        <status>0xB0</status>
+        <midino>0x22</midino>
+        <options>
+          <normal/>
+        </options>
+      </control>
+      <control>
+        <group>[Pioneered]</group>
+        <key>TimeClamp.profileIn</key>
+        <status>0xB0</status>
+        <midino>0x23</midino>
+        <options>
+          <script-binding/>
+        </options>
+      </control>
+      <control>
+        <group>[Pioneered]</group>
+        <key>TimeClamp.tempIn</key>
+        <status>0xB0</status>
+        <midino>0x24</midino>
+        <options>
+          <script-binding/>
+        </options>
+      </control>
+    </controls>
+    <!-- The on-screen keyboard state is broadcast by a script heartbeat
+         (midi.sendShortMsg 0xB0 0x20), not by output mappings: the output
+         path delivers an event only when the next one is queued, so a
+         once-a-second level broadcast is the robust choice. -->
+    <outputs/>
+  </controller>
+</MixxxControllerPreset>

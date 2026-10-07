@@ -1,0 +1,137 @@
+<Template>
+  <WidgetGroup>
+    <ObjectName>Overview</ObjectName>
+    <Layout>vertical</Layout>
+    <Size>0me,0me</Size>
+    <Children>
+      <WidgetGroup>
+        <ObjectName>Waveforms_Container</ObjectName>
+        <Layout>horizontal</Layout>
+        <Children>
+          <WidgetGroup>
+            <ObjectName>Waveforms</ObjectName>
+            <Layout>vertical</Layout>
+            <Size>0me,0me</Size>
+            <Children>
+              <Template src="skin:waveform.xml">
+                <SetVariable name="channel">1</SetVariable>
+              </Template>
+              <Template src="skin:waveform.xml">
+                <SetVariable name="channel">2</SetVariable>
+              </Template>
+              <Template src="skin:waveform.xml">
+                <SetVariable name="channel">3</SetVariable>
+              </Template>
+              <Template src="skin:waveform.xml">
+                <SetVariable name="channel">4</SetVariable>
+              </Template>
+            </Children>
+          </WidgetGroup>
+          <WidgetGroup>
+            <ObjectName>SidePanel_Container</ObjectName>
+            <Layout>vertical</Layout>
+            <!-- Fixed, and wide enough for the widest word in it: while the
+                 panel held an effect selector its own minimum kept it open,
+                 and without that it collapsed onto the labels. -->
+            <Size>200f,0me</Size>
+            <Children>
+              <Template src="skin:beffect.xml"/>
+            </Children>
+          </WidgetGroup>
+        </Children>
+      </WidgetGroup>
+            <WidgetGroup>
+        <ObjectName>Decks</ObjectName>
+        <Layout>vertical</Layout>
+        <SizePolicy>me,max</SizePolicy>
+        <Children>
+          <WidgetGroup>
+            <ObjectName>DeckRowTop</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,160max</Size>
+            <Children>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">1</SetVariable>
+                <SetVariable name="ovh">116</SetVariable>
+                <SetVariable name="ovwf">188</SetVariable>
+              </Template>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">2</SetVariable>
+                <SetVariable name="ovh">116</SetVariable>
+                <SetVariable name="ovwf">188</SetVariable>
+              </Template>
+            </Children>
+            <Connection>
+              <ConfigKey>[Pioneered],card_smalltop</ConfigKey>
+              <BindProperty>visible</BindProperty>
+            </Connection>
+          </WidgetGroup>
+          <WidgetGroup>
+            <ObjectName>DeckRowBottom</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,160max</Size>
+            <Children>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">3</SetVariable>
+                <SetVariable name="ovh">116</SetVariable>
+                <SetVariable name="ovwf">188</SetVariable>
+              </Template>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">4</SetVariable>
+                <SetVariable name="ovh">116</SetVariable>
+                <SetVariable name="ovwf">188</SetVariable>
+              </Template>
+            </Children>
+            <Connection>
+              <ConfigKey>[Pioneered],card_smallbot</ConfigKey>
+              <BindProperty>visible</BindProperty>
+            </Connection>
+          </WidgetGroup>
+          <WidgetGroup>
+            <ObjectName>DeckRowTopBig</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,180max</Size>
+            <Children>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">1</SetVariable>
+                <SetVariable name="ovh">140</SetVariable>
+                <SetVariable name="ovwf">236</SetVariable>
+              </Template>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">2</SetVariable>
+                <SetVariable name="ovh">140</SetVariable>
+                <SetVariable name="ovwf">236</SetVariable>
+              </Template>
+            </Children>
+            <Connection>
+              <ConfigKey>[Pioneered],card_bigtop</ConfigKey>
+              <BindProperty>visible</BindProperty>
+            </Connection>
+          </WidgetGroup>
+          <WidgetGroup>
+            <ObjectName>DeckRowBottomBig</ObjectName>
+            <Layout>horizontal</Layout>
+            <Size>0me,180max</Size>
+            <Children>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">3</SetVariable>
+                <SetVariable name="ovh">140</SetVariable>
+                <SetVariable name="ovwf">236</SetVariable>
+              </Template>
+              <Template src="skin:deck.xml">
+                <SetVariable name="channel">4</SetVariable>
+                <SetVariable name="ovh">140</SetVariable>
+                <SetVariable name="ovwf">236</SetVariable>
+              </Template>
+            </Children>
+            <Connection>
+              <ConfigKey>[Pioneered],card_bigbot</ConfigKey>
+              <BindProperty>visible</BindProperty>
+            </Connection>
+          </WidgetGroup>
+        </Children>
+      </WidgetGroup>
+
+    </Children>
+  </WidgetGroup>
+</Template>

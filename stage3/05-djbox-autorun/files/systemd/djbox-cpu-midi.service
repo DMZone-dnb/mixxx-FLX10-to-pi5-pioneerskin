@@ -1,0 +1,12 @@
+[Unit]
+Description=Send CPU load / deck profile to the Pioneered skin via VirMIDI
+After=sound.target
+
+[Service]
+User=pi
+ExecStart=/usr/local/bin/djbox-cpu-midi.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

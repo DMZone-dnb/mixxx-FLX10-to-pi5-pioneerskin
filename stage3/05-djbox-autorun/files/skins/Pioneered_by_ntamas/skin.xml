@@ -1,0 +1,161 @@
+<skin>
+	<manifest>
+		<title>Pioneered by ntamas</title>
+		<author>Sven Boekelder and  Bence Juhasz</author>
+		<version>0.0.1</version>
+		<description>Pioneer inspired theme for smaller screen resolutions</description>
+		<language>*</language>
+		<license>GPL</license>
+		<attributes>
+			<attribute config_key="[Master],num_decks">4</attribute>
+			<attribute config_key="[Pioneered],cpu">0</attribute>
+			<!-- The box boots in 4 DECK. These three and the show_wf/card flags
+			     below are one row of the deck-mode table in topbar.xml, and they
+			     have to stay that row: a mode button rewrites all of them at
+			     once, so a default that mixed two modes would show a layout no
+			     button can produce until one is pressed. -->
+			<attribute config_key="[Pioneered],mode2">0</attribute>
+			<attribute config_key="[Pioneered],mode24">0</attribute>
+			<attribute config_key="[Pioneered],mode4">1</attribute>
+			<attribute config_key="[Pioneered],show_wf1">1</attribute>
+			<attribute config_key="[Pioneered],show_wf2">1</attribute>
+			<attribute config_key="[Pioneered],show_wf3">1</attribute>
+			<attribute config_key="[Pioneered],show_wf4">1</attribute>
+			<attribute config_key="[Pioneered],show_cardtop">1</attribute>
+			<attribute config_key="[Pioneered],show_cardbot">1</attribute>
+			<attribute config_key="[Pioneered],zoomin">0</attribute>
+			<attribute config_key="[Pioneered],zoomout">0</attribute>
+			<!-- The stem buttons in the side panel. A Connection creates the
+			     key it names, so these would exist without being listed here;
+			     they are listed so that the set is visible in one place and
+			     reads zero before anything has been pressed. Zero is off. -->
+			<attribute config_key="[Pioneered],stem1_drums">0</attribute>
+			<attribute config_key="[Pioneered],stem1_vocal">0</attribute>
+			<attribute config_key="[Pioneered],stem1_inst">0</attribute>
+			<attribute config_key="[Pioneered],stem2_drums">0</attribute>
+			<attribute config_key="[Pioneered],stem2_vocal">0</attribute>
+			<attribute config_key="[Pioneered],stem2_inst">0</attribute>
+			<attribute config_key="[Pioneered],stem3_drums">0</attribute>
+			<attribute config_key="[Pioneered],stem3_vocal">0</attribute>
+			<attribute config_key="[Pioneered],stem3_inst">0</attribute>
+			<attribute config_key="[Pioneered],stem4_drums">0</attribute>
+			<attribute config_key="[Pioneered],stem4_vocal">0</attribute>
+			<attribute config_key="[Pioneered],stem4_inst">0</attribute>
+			<attribute config_key="[Pioneered],card_smalltop">1</attribute>
+			<attribute config_key="[Pioneered],card_smallbot">1</attribute>
+			<attribute config_key="[Pioneered],card_bigtop">0</attribute>
+			<attribute config_key="[Pioneered],card_bigbot">0</attribute>
+			<attribute persist="true" config_key="[Pioneered],timemode1">1</attribute>
+			<attribute persist="true" config_key="[Pioneered],timemode2">1</attribute>
+			<attribute persist="true" config_key="[Pioneered],timemode3">1</attribute>
+			<attribute persist="true" config_key="[Pioneered],timemode4">1</attribute>
+			<attribute config_key="[Pioneered],osk">0</attribute>
+			<attribute config_key="[Pioneered],osk_req">0</attribute>
+			<attribute config_key="[Pioneered],profile2">0</attribute>
+			<attribute config_key="[Pioneered],temp">0</attribute>
+			<attribute config_key="[Pioneered],load">0</attribute>
+			<attribute config_key="[Pioneered],audio_btn">0</attribute>
+			<attribute config_key="[Pioneered],prefs_btn">0</attribute>
+			<attribute config_key="[Pioneered],onair1">0</attribute>
+			<attribute config_key="[Pioneered],onair2">0</attribute>
+			<attribute config_key="[Pioneered],onair3">0</attribute>
+			<attribute config_key="[Pioneered],onair4">0</attribute>
+			<!-- Sixty-four, because the DDJ pads address four banks of sixteen
+			     and every slot above the sixteenth would be a group that does
+			     not exist. The mapping raises this too if it finds it low, but
+			     a controller script setting it runs PlayerManager in the wrong
+			     thread: Qt refuses to parent the forty eight new samplers and
+			     says so forty eight times. So the skin is where it belongs. -->
+			<attribute config_key="[Master],num_samplers">64</attribute>
+			<attribute persist="true" config_key="[Master],maximize_library">0</attribute>
+			<attribute persist="true" config_key="[Master],skin_settings">0</attribute>
+			<attribute persist="true" config_key="[Microphone],show_microphone">0</attribute>
+			<attribute persist="true" config_key="[VinylControl],show_vinylcontrol">0</attribute>
+			<attribute persist="true" config_key="[PreviewDeck],show_previewdeck">0</attribute>
+			<attribute persist="true" config_key="[Library],show_coverart">0</attribute>
+		</attributes>
+	</manifest>
+
+	<ObjectName>Mixxx</ObjectName>
+	<Style src="skin:style.qss"/>
+	<MinimumSize>480,420</MinimumSize>
+	<SizePolicy>me,me</SizePolicy>
+	<Layout>vertical</Layout>
+
+	<LaunchImageStyle>
+	  QLabel {
+	    image: url(skin:/images/pioneered_logo.png);
+	    margin-bottom: 12px;
+	    min-width: 1074px;
+	    max-width: 1074px;
+	    min-height: 192px;
+	    max-height: 192px;
+	  }
+
+		QProgressBar {
+	    background-color: #32323c;
+			max-height: 4px;
+	  }
+
+	  QProgressBar::chunk {
+	    background-color: #b6294c;
+	  }
+	</LaunchImageStyle>
+
+	<Children>
+		<SingletonDefinition>
+			<ObjectName>Topbar_Singleton</ObjectName>
+			<Children>
+				<Template src="skin:topbar.xml"/>
+			</Children>
+		</SingletonDefinition>
+		<SingletonDefinition>
+			<ObjectName>Overview_Singleton</ObjectName>
+			<Children>
+				<Template src="skin:overview.xml"/>
+			</Children>
+		</SingletonDefinition>
+		<SingletonDefinition>
+			<ObjectName>Library_Singleton</ObjectName>
+			<Children>
+				<Template src="skin:library.xml"/>
+			</Children>
+		</SingletonDefinition>
+		<SingletonDefinition>
+			<ObjectName>Samplers_Singleton</ObjectName>
+			<Children>
+				<Template src="skin:samplers.xml"/>
+			</Children>
+		</SingletonDefinition>
+
+		<WidgetGroup>
+			<ObjectName>SkinContainer</ObjectName>
+			<Layout>vertical</Layout>
+			<SizePolicy>me,me</SizePolicy>
+			<Children>
+				<WidgetGroup>
+					<Layout>vertical</Layout>
+					<SizePolicy>me,me</SizePolicy>
+					<Children>
+						<SingletonContainer>
+							<ObjectName>Topbar_Singleton</ObjectName>
+						</SingletonContainer>
+						<WidgetStack currentpage="[Tab],current">
+							<Children>
+								<SingletonContainer trigger="[Tab],overview">
+									<ObjectName>Overview_Singleton</ObjectName>
+								</SingletonContainer>
+								<SingletonContainer trigger="[Tab],library" on_hide_select="0">
+									<ObjectName>Library_Singleton</ObjectName>
+								</SingletonContainer>
+								<SingletonContainer trigger="[Tab],samplers" on_hide_select="0">
+									<ObjectName>Samplers_Singleton</ObjectName>
+								</SingletonContainer>
+							</Children>
+						</WidgetStack>
+					</Children>
+				</WidgetGroup>
+			</Children>
+		</WidgetGroup>
+	</Children>
+</skin>
