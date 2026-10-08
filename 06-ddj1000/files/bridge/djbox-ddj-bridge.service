@@ -1,0 +1,26 @@
+[Unit]
+Description=DDJ-1000 jog displays and control bridge
+Documentation=https://github.com/ntamas94/pioneered-by-ntamas
+# Tied to the controller itself, not to boot: udev gives the USB device the
+# stable name /dev/ddj1000, systemd turns that into dev-ddj1000.device, and
+# binding to it means this starts when the controller is plugged in and stops
+# when it is pulled out. Nothing to enable, nothing to start by hand.
+# No start-rate limit: pulling the cable a few times in quick succession is
+# a thing people do, and systemd refusing to start the service afterwards
+# looks exactly like the controller being broken.
+StartLimitIntervalSec=0
+BindsTo=dev-ddj1000.device
+After=dev-ddj1000.device sound.target
+
+[Service]
+Type=simple
+# Refuse to start on a damaged copy rather than fail in a way that reads, from
+# the controller, as the screens simply not working: a copy interrupted midway
+# leaves a file that exists and is executable and does nothing.
+ExecStartPre=/usr/bin/python3 -c "import ast,sys; ast.parse(open(\"/usr/local/bin/djbox-ddj-bridge.py\").read())"
+ExecStart=/usr/local/bin/djbox-ddj-bridge.py 1
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=dev-ddj1000.device
