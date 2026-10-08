@@ -1,6 +1,0 @@
-dkms
-build-essential
-python3
-python3-pil
-ffmpeg
-libasound2
