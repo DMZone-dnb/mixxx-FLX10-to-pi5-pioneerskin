@@ -1,10 +1,10 @@
 #!/bin/bash -e
 # Auto-run Mixxx (kiosk) + Pioneered skin + DDJ-FLX10 mapping.
-# Parts of this stage come from pioneered-by-ntamas; the FLX10 mapping from "DDJ-FLX10 Mixxx 2.6".
+# Parts of this stage come from pioneered-by-ntamas; FLX10/FLX6 mappings and the XDJ OPEN SOURCE skin were added by the user.
 
 # --- skin + controller mappings (system-wide; selected once in Mixxx Preferences)
 install -d "${ROOTFS_DIR}/usr/share/mixxx/skins" "${ROOTFS_DIR}/usr/share/mixxx/controllers"
-cp -r files/skins/Pioneered_by_ntamas "${ROOTFS_DIR}/usr/share/mixxx/skins/"
+cp -r files/skins/. "${ROOTFS_DIR}/usr/share/mixxx/skins/"
 install -m 644 files/controllers/* "${ROOTFS_DIR}/usr/share/mixxx/controllers/"
 
 # --- helper scripts
