@@ -4,6 +4,7 @@ MIXXX_BRANCH="${MIXXX_BRANCH:-2.6}"
 mkdir -p ${BASE_DIR}/.ccache/
 mkdir -p "${ROOTFS_DIR}/ccache"
 mount --bind ${BASE_DIR}/.ccache  "${ROOTFS_DIR}/ccache"
+install -m 644 files/pioneered-mixxx.patch "${ROOTFS_DIR}/tmp/pioneered-mixxx.patch"
 on_chroot << EOF
     git clone --branch ${MIXXX_BRANCH} https://github.com/mixxxdj/mixxx.git /code/
     cd /code/
@@ -19,6 +20,18 @@ on_chroot << EOF
     apt-mark hold libhidapi-dev libhidapi-libusb0 libhidapi-hidraw0 || true
     rm -rf /tmp/hidapi
     git rev-parse HEAD > /opt/mixxx.version
+    # ntamas patch (minute ruler, scrolling titles, per-deck REMAIN, GPU-hang workaround).
+    # Written for Mixxx 2.5.6: used only if it applies cleanly, otherwise stock Mixxx is built.
+    apt-get install -y --no-install-recommends patch
+    PATCHED=0
+    cd /code
+    if patch -p1 --dry-run < /tmp/pioneered-mixxx.patch; then
+        patch -p1 -s < /tmp/pioneered-mixxx.patch
+        PATCHED=1
+        echo "NTAMAS-PATCH: applied"
+    else
+        echo "NTAMAS-PATCH-WARNING: patch does not apply to this Mixxx version, building stock Mixxx"
+    fi
     export CCACHE_DIR=/ccache
     ccache -M 5G
     export CCACHE_NOCOMPRESS="true"
@@ -32,7 +45,16 @@ on_chroot << EOF
     cmake \
       -DKEYFINDER=ON -DFFMPEG=ON -DMAD=ON -DMODPLUG=ON -DWAVPACK=ON -DBULK=ON \
       -DCMAKE_INSTALL_PREFIX=/usr/ -S /code -B /code/build
-    cmake --build /code/build --target install
+    if ! cmake --build /code/build --target install; then
+        if [ "\$PATCHED" = "1" ]; then
+            echo "NTAMAS-PATCH-WARNING: build failed with the patch, retrying without it"
+            cd /code && patch -R -p1 -s < /tmp/pioneered-mixxx.patch
+            cmake --build /code/build --target install
+        else
+            exit 1
+        fi
+    fi
+    cd /code/build
     ccache -s
     cpack -G DEB
 EOF
