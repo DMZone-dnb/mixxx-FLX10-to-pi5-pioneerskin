@@ -8,6 +8,16 @@ on_chroot << EOF
     git clone --branch ${MIXXX_BRANCH} https://github.com/mixxxdj/mixxx.git /code/
     cd /code/
     tools/debian_buildenv.sh setup
+    # Mixxx 2.6 needs hidapi >= 0.14.0 but Debian bookworm only ships 0.13.1:
+    # build 0.14.0 from source over the distro copy (same soname) and keep apt from downgrading it.
+    apt-get install -y --no-install-recommends libudev-dev pkg-config
+    git clone --depth 1 --branch hidapi-0.14.0 https://github.com/libusb/hidapi.git /tmp/hidapi
+    cmake -S /tmp/hidapi -B /tmp/hidapi/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DHIDAPI_BUILD_HIDTEST=OFF
+    cmake --build /tmp/hidapi/build -j4
+    cmake --install /tmp/hidapi/build
+    ldconfig
+    apt-mark hold libhidapi-dev libhidapi-libusb0 libhidapi-hidraw0 || true
+    rm -rf /tmp/hidapi
     git rev-parse HEAD > /opt/mixxx.version
     export CCACHE_DIR=/ccache
     ccache -M 5G
